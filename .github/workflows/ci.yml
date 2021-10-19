@@ -37,6 +37,7 @@ jobs:
           BROWSERLESS_PORT: ${{ job.services.browserless.ports[3000] }}
           USER: ${{ secrets.GOANYWHERE_USERNAME }}
           PASS: ${{ secrets.GOANYWHERE_PASSWORD }}
+      - run: ls
       - uses: docker/setup-buildx-action@v1.5.1
       - uses: docker/setup-qemu-action@v1.2.0
 

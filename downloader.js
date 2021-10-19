@@ -20,11 +20,12 @@ async function run() {
 
       fetch(`http://localhost:${process.env.BROWSERLESS_PORT}/workspace`)
         .then(response => response.json())
-        .then(data =>
-          http.get(`http://localhost:${process.env.BROWSERLESS_PORT}${data[0].path}`, response =>
+        .then(data => {
+          console.log("fetching file from browserless")
+          return http.get(`http://localhost:${process.env.BROWSERLESS_PORT}${data[0].path}`, response =>
             response.pipe(file)
           )
-        )
+        })
 
     }
 
