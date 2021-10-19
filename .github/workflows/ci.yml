@@ -8,13 +8,8 @@ on:
     branches:
     - main
 
-# defaults:
-#   run:
-#     working-directory: ./mongodb
 
 jobs:
-# Runs all steps on the VM
-# The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
   build:
     runs-on: ubuntu-latest
 
@@ -29,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v2.4.1
         with:
           node-version: 16
-          # cache: 'npm'
+          cache: 'npm'
 
       - run: npm install
       - run: node downloader.js
