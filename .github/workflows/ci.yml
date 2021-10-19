@@ -55,7 +55,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: buildtag
-        run: echo "::set-output name=BUILD_TAG::centos-$(head -n 1 Dockerfile | sed 's/FROM centos://' | sed 's/ as build//')-$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
+        run: |
+          echo "::set-output name=BUILD_TAG::centos-$(head -n 1 Dockerfile | sed 's/FROM centos://' | sed 's/ as build//')-$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
+          echo "::set-output name=APP_VERSION::$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
 
       - id: docker_meta
         uses: docker/metadata-action@v3.5.0
@@ -69,6 +71,7 @@ jobs:
             type=sha,format=long
             type=edge,branch=$repo.default_branch
             type=raw,value=${{ steps.buildtag.outputs.BUILD_TAG }}
+            type=raw,value=${{ steps.buildtag.outputs.APP_VERSION }}
 
       - name: build+push
         uses: docker/build-push-action@v2.7.0
