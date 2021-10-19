@@ -15,4 +15,9 @@ RUN ./installer.sh -q \
 WORKDIR /usr/local/HelpSystems/GoAnywhere_Gateway
 COPY config/* config/
 
+RUN useradd -u 1000 gateway
+RUN chown -R gateway .
+
+USER gateway
+
 CMD ["./bin/gagatewayd", "start-launchd"]
