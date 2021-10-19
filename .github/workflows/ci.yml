@@ -75,7 +75,9 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
-
+          cache-from: type=registry,ref=user/app:buildcache
+          cache-to: type=registry,ref=user/app:buildcache,mode=max
+          
       - name: Update repo description
         if: github.ref == 'refs/heads/main'
         uses: peter-evans/dockerhub-description@v2
