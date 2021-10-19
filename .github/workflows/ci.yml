@@ -90,7 +90,7 @@ jobs:
 
       - uses: actions/github-script@v5
         env:
-          TAG: ${{ steps.buildtag.outputs.buildtag }}
+          TAG: ${{ steps.buildtag.outputs.BUILD_TAG }}
         with:
           script: |
             github.rest.git.createRef({
