@@ -16,12 +16,13 @@ async function run() {
     console.log(`download: ${state}`)
     if (state === "completed") {
       browser.close()
-      const file = fs.createWriteStream("installer.sh");
 
       fetch(`http://localhost:${process.env.BROWSERLESS_PORT}/workspace`)
         .then(response => response.json())
         .then(data => {
           console.log("fetching file from browserless")
+          const file = fs.createWriteStream("installer.sh");
+          fs.writeFileSync('version', data[0].name);
           return http.get(`http://localhost:${process.env.BROWSERLESS_PORT}${data[0].path}`, response =>
             response.pipe(file)
           )

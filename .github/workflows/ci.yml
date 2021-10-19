@@ -54,17 +54,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - id: buildtag
+        run: echo "::set-output name=BUILD_TAG::centos-$(head -n 1 Dockerfile | sed 's/FROM centos://' | sed 's/ as build//')-$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
+
       - id: docker_meta
         uses: docker/metadata-action@v3.5.0
         with:
-            # ${{ github.repository }}
           images: |
+            ${{ github.repository }}
             ghcr.io/${{ github.repository }}
           flavor: |
             latest=true
           tags: |
             type=sha,format=long
             type=edge,branch=$repo.default_branch
+            type=raw,value=${{ steps.buildtag.outputs.buildtag }}
+
       - name: build+push
         uses: docker/build-push-action@v2.7.0
         with:
@@ -73,3 +78,36 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ github.repository }}
+
+      - uses: actions/github-script@v5
+        env:
+          TAG: ${{ steps.buildtag.outputs.buildtag }}
+        with:
+          script: |
+            github.git.createRef({
+              owner: github.context.repo.owner,
+              repo: github.context.repo.repo,
+              ref: `refs/tags/${process.env.TAG}`,
+              sha: context.sha
+            })
+
+      # - uses: actions/github-script@v5
+      #   with:
+      #     script: |
+      #       github.rest.rest.repos.createRelease({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         tag_name,
+      #       })
+# issues.createComment({
+#               issue_number: context.issue.number,
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               body: '👋 Thanks for reporting!'
+#             })
