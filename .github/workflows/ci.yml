@@ -90,9 +90,18 @@ jobs:
           TAG: ${{ steps.buildtag.outputs.BUILD_TAG }}
         with:
           script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: `refs/tags/${process.env.TAG}`,
-              sha: context.sha
-            })
+            try {
+              github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `refs/tags/${process.env.TAG}`,
+                sha: context.sha
+              })
+            } catch (error) {
+              github.rest.git.updateRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `refs/tags/${process.env.TAG}`,
+                sha: context.sha
+              })
+            }
