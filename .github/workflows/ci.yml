@@ -93,7 +93,7 @@ jobs:
           TAG: ${{ steps.buildtag.outputs.buildtag }}
         with:
           script: |
-            github.git.createRef({
+            github.rest.git.createRef({
               owner: github.context.repo.owner,
               repo: github.context.repo.repo,
               ref: `refs/tags/${process.env.TAG}`,
