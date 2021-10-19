@@ -3,7 +3,7 @@ RUN \
   yum install -y dejavu-lgc-sans-fonts && \
   ln -s /usr/share/fonts/dejavu /usr/share/fonts/dejavu-lgc
 COPY  --chmod=0755 installer.sh /
-RUN ./installer.sh -q \
+RUN /installer.sh -q \
   -Vgagateway.controllerAddress=0.0.0.0 \
   -Vgagateway.dataAddress=0.0.0.0 \
   -Vgagateway.proxyAddress=0.0.0.0 \
