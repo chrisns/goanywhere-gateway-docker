@@ -24,6 +24,12 @@ jobs:
       security-events: none
       statuses: none
 
+    services:
+      browserless:
+        image: browserless/chrome:1.49-chrome-stable
+        ports:
+          - 3000/tcp
+
     steps:
       - uses: actions/checkout@v1
 
