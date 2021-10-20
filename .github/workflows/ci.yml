@@ -18,9 +18,11 @@ jobs:
         image: browserless/chrome:1.49-chrome-stable
         ports:
           - 3000/tcp
+    outputs:
+      tags: ${{ steps.docker_meta.outputs.tags }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.3.5
       - uses: actions/setup-node@v2.4.1
         with:
           node-version: 16
@@ -30,13 +32,13 @@ jobs:
       - run: node downloader.js
         env:
           BROWSERLESS_PORT: ${{ job.services.browserless.ports[3000] }}
-          USER: ${{ secrets.GOANYWHERE_USERNAME }}
+          USER: chrisns
           PASS: ${{ secrets.GOANYWHERE_PASSWORD }}
       - run: ls
 
       - name: Login to dockerhub
         if: github.ref == 'refs/heads/main'
-        uses: docker/login-action@v1
+        uses: docker/login-action@v1.9.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -78,13 +80,13 @@ jobs:
           
       - name: Update repo description
         if: github.ref == 'refs/heads/main'
-        uses: peter-evans/dockerhub-description@v2
+        uses: peter-evans/dockerhub-description@v2.4.3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: chrisns
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: ${{ github.repository }}
 
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v5.0.0
         if: github.ref == 'refs/heads/main'
         env:
           TAG: ${{ steps.buildtag.outputs.BUILD_TAG }}
@@ -105,3 +107,41 @@ jobs:
                 sha: context.sha
               })
             }
+  sign:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      actions: none
+      checks: none
+      contents: none
+      deployments: none
+      issues: none
+      packages: write
+      pull-requests: none
+      repository-projects: none
+      security-events: none
+      statuses: none
+      id-token: write
+
+    steps:
+      - name: Login to dockerhub
+        uses: docker/login-action@v1.9.0
+        with:
+          username: chrisns
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to GitHub
+        uses: docker/login-action@v1.9.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: sigstore/cosign-installer@v1.2.0
+
+      - name: Sign the images
+        run: cosign sign -oidc-issuer https://token.actions.githubusercontent.com ${TAGS}
+        env:
+          TAGS: ${{needs.build.outputs.tags}}
+          COSIGN_EXPERIMENTAL: 1
