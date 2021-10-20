@@ -10,6 +10,7 @@ Docker wrapper for https://www.goanywhere.com/gateway that is automatically upda
 [![Docker Pulls](https://img.shields.io/docker/pulls/chrisns/goanywhere-gateway-docker.svg)](https://hub.docker.com/r/chrisns/goanywhere-gateway-docker)
 [![Security Scanning](https://github.com/chrisns/goanywhere-gateway-docker/actions/workflows/security.yml/badge.svg)](https://github.com/chrisns/goanywhere-gateway-docker/actions/workflows/security.yml)
 [![Build](https://github.com/chrisns/goanywhere-gateway-docker/actions/workflows/ci.yml/badge.svg)](https://github.com/chrisns/goanywhere-gateway-docker/actions/workflows/ci.yml)
+[![Known Vulnerabilities](https://snyk.io/test/github/chrisns/goanywhere-gateway-docker/badge.svg)](https://snyk.io/test/github/chrisns/goanywhere-gateway-docker)
 
 ## Usage
 
