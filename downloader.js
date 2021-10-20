@@ -38,12 +38,14 @@ async function run() {
   await page.type('input[name="email"]', process.env.USER)
   await page.type('input[name="secret"]', process.env.PASS)
   await (await page.$x("//button[contains(., 'Sign In')]"))[0].click()
-  await page.waitForNavigation()
+
+  await page.waitForXPath("//a[contains(., 'Product Downloads')]", { visible: true })
   await (await page.$x("//a[contains(., 'Product Downloads')]"))[0].click()
   console.log("logged in")
 
-  await page.waitForNavigation()
+  await page.waitForXPath("//label[contains(., 'Choose Product')]", { visible: true })
   await (await page.$x("//label[contains(., 'Choose Product')]"))[1].click()
+  await page.waitForXPath("//span[contains(., 'GoAnywhere Gateway')]", { visible: true })
   await (await page.$x("//span[contains(., 'GoAnywhere Gateway')]"))[0].click()
 
   await page.waitForTimeout(500);
