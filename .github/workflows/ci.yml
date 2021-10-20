@@ -46,5 +46,5 @@ jobs:
 
       - name: Sign image
         run: |
-          echo ${{ steps.docker_meta.outputs.tags }}
+          # echo ${{ steps.docker_meta.outputs.tags }}
           cosign sign -key my_cosign.key ghcr.io/sigstore/sample-honk:${{ github.sha }}
