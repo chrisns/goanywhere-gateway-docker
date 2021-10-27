@@ -36,7 +36,7 @@ jobs:
 
       - id: buildtag
         run: |
-          echo "::set-output name=BUILD_TAG::centos-$(head -n 1 Dockerfile | sed 's/FROM centos://' | sed 's/ as build//')-$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
+          echo "::set-output name=BUILD_TAG::centos-$(cat Dockerfile | sed -n 2p | sed 's/FROM centos://' | sed 's/ as build//')-$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
           echo "::set-output name=APP_VERSION::$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
 
       - id: docker_meta

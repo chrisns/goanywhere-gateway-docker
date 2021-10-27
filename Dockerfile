@@ -1,5 +1,4 @@
 FROM helpsystems/goanywhere-gateway:2.8.3 as gettheinstaller
-
 FROM centos:8.4.2105 as build
 RUN \
   useradd -u 1000 gateway && \
