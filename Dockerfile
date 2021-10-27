@@ -5,7 +5,7 @@ RUN \
   yum install -y dejavu-lgc-sans-fonts && \
   ln -s /usr/share/fonts/dejavu /usr/share/fonts/dejavu-lgc
 
-COPY --from=gettheinstaller --chmod=0755 gagateway_linux_x64.sh ./installer.sh
+COPY --from=gettheinstaller --chmod=0755 /gagateway_linux_x64.sh ./installer.sh
 
 RUN ./installer.sh -q \
   -Vgagateway.controllerAddress=0.0.0.0 \
