@@ -13,28 +13,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      browserless:
-        image: browserless/chrome:1.49-chrome-stable
-        ports:
-          - 3000/tcp
     outputs:
       tags: ${{ steps.docker_meta.outputs.tags }}
 
     steps:
       - uses: actions/checkout@v2.3.5
-      - uses: actions/setup-node@v2.4.1
-        with:
-          node-version: 16
-          cache: 'npm'
-
-      - run: npm install
-      - run: node downloader.js
-        env:
-          BROWSERLESS_PORT: ${{ job.services.browserless.ports[3000] }}
-          USER: chrisns
-          PASS: ${{ secrets.GOANYWHERE_PASSWORD }}
-      - run: ls
 
       - name: Login to dockerhub
         if: github.ref == 'refs/heads/main'

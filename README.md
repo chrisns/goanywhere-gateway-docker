@@ -1,6 +1,6 @@
 # GoAnywhere Gateway Docker
 
-Docker wrapper for https://www.goanywhere.com/gateway that is automatically updated and patched
+Docker wrapper for https://www.goanywhere.com/gateway that is automatically updated and patched thanks @dependabot !
 
 [![GitHub issues](https://img.shields.io/github/issues/chrisns/goanywhere-gateway-docker.svg)](https://github.com/chrisns/goanywhere-gateway-docker/issues)
 [![GitHub forks](https://img.shields.io/github/forks/chrisns/goanywhere-gateway-docker.svg)](https://github.com/chrisns/goanywhere-gateway-docker/network)
@@ -22,3 +22,9 @@ $ docker run --net=host \
 ```
 
 Also see [the accompanying helm chart](https://github.com/chrisns/goanywhere-gateway-helmchart)
+
+## How is this different from the [official image](https://hub.docker.com/r/helpsystems/goanywhere-gateway)?
+
+- Runs as non-root
+- Current and patched base image
+- stdOut logs by default
