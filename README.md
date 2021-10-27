@@ -23,8 +23,24 @@ $ docker run --net=host \
 
 Also see [the accompanying helm chart](https://github.com/chrisns/goanywhere-gateway-helmchart)
 
+## Tags
+
+I publish a few tags
+
+- `latest` is the most current and **mutable**
+- `2.8.3` (or similar version numbers) is always the most recent [centos base](https://hub.docker.com/r/_/centos) with 2.8.3 of goanywhere gateway running and **mutable**
+- `centos-8.4.2105-2.8.3` (or similar version numbers) is the versioned centos with the versioned goanywhere gateway and should be considered **immutable**
+- `sha-42fe666050666f97dde7b0c658f7f9ce758f328e` is the git sha at the time of the build and should be considered **immutable**
+
+If you care you can of course use the SHA in the pull too:
+
+```
+docker pull ghcr.io/chrisns/goanywhere-gateway-docker:centos-8.4.2105-2.8.3@sha256:6a33795969176d4153ae6880c4f699bbc4f9e651dd67129cbb10b35610895c1c
+```
+
 ## How is this different from the [official image](https://hub.docker.com/r/helpsystems/goanywhere-gateway)?
 
 - Runs as non-root
 - Current and patched base image
 - stdOut logs by default
+- image is signed with [cosign](https://github.com/sigstore/cosign)
