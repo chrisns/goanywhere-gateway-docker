@@ -40,7 +40,7 @@ jobs:
           echo "::set-output name=APP_VERSION::$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
 
       - id: docker_meta
-        uses: docker/metadata-action@v3.6.1
+        uses: docker/metadata-action@v3.6.2
         with:
           images: |
             ${{ github.repository }}
