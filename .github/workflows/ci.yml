@@ -69,7 +69,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: ${{ github.repository }}
 
-      - uses: actions/github-script@v5.0.0
+      - uses: actions/github-script@v5.1.0
         if: github.ref == 'refs/heads/main'
         env:
           TAG: ${{ steps.buildtag.outputs.BUILD_TAG }}
