@@ -17,18 +17,18 @@ jobs:
       tags: ${{ steps.docker_meta.outputs.tags }}
 
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2.4.0
 
       - name: Login to dockerhub
         if: github.ref == 'refs/heads/main'
-        uses: docker/login-action@v1.12.0
+        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7 # renovate: tag=v1.12.0
         with:
           username: chrisns
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Login to GitHub
         if: github.ref == 'refs/heads/main'
-        uses: docker/login-action@v1.12.0
+        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7 # renovate: tag=v1.12.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -40,7 +40,7 @@ jobs:
           echo "::set-output name=APP_VERSION::$(cat version | sed 's/gagateway//' | sed 's/_linux_x64.sh//' | sed 's/_/./g')"
 
       - id: docker_meta
-        uses: docker/metadata-action@v3.6.2
+        uses: docker/metadata-action@e5622373a38e60fb6d795a4421e56882f2d7a681 # renovate: tag=v3.6.2
         with:
           images: |
             ${{ github.repository }}
@@ -54,7 +54,7 @@ jobs:
             type=raw,value=${{ steps.buildtag.outputs.APP_VERSION }}
 
       - name: build+push
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@a66e35b9cbcf4ad0ea91ffcaf7bbad63ad9e0229 # renovate: tag=v2.7.0
         with:
           context: .
           push: ${{ github.ref == 'refs/heads/main' }}
@@ -63,13 +63,13 @@ jobs:
           
       - name: Update repo description
         if: github.ref == 'refs/heads/main'
-        uses: peter-evans/dockerhub-description@v2.4.3
+        uses: peter-evans/dockerhub-description@616d1b63e806b630b975af3b4fe3304307b20f40 # renovate: tag=v2.4.3
         with:
           username: chrisns
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: ${{ github.repository }}
 
-      - uses: actions/github-script@v5.1.0
+      - uses: actions/github-script@e3cbab99d3a9b271e1b79fc96d103a4a5534998c # renovate: tag=v5.1.0
         if: github.ref == 'refs/heads/main'
         env:
           TAG: ${{ steps.buildtag.outputs.BUILD_TAG }}
@@ -109,19 +109,19 @@ jobs:
 
     steps:
       - name: Login to dockerhub
-        uses: docker/login-action@v1.12.0
+        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7 # renovate: tag=v1.12.0
         with:
           username: chrisns
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Login to GitHub
-        uses: docker/login-action@v1.12.0
+        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7 # renovate: tag=v1.12.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: sigstore/cosign-installer@v1.4.1
+      - uses: sigstore/cosign-installer@116dc6872c0a067bcb78758f18955414cdbf918f # renovate: tag=v1.4.1
 
       - name: Sign the images
         run: cosign sign -oidc-issuer https://token.actions.githubusercontent.com ${TAGS}
