@@ -1,5 +1,5 @@
-FROM helpsystems/goanywhere-gateway:2.8.4 as gettheinstaller
-FROM centos:8.4.2105 as build
+FROM helpsystems/goanywhere-gateway:2.8.4@sha256:7c7dfdfa99eae48f72c574c3092694da57469d1812594200ba9b7e1818958697 as gettheinstaller
+FROM centos:8.4.2105@sha256:a27fd8080b517143cbbbab9dfb7c8571c40d67d534bbdee55bd6c473f432b177 as build
 RUN \
   useradd -u 1000 gateway && \
   yum install -y dejavu-lgc-sans-fonts && \
